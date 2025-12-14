@@ -9,10 +9,10 @@
             </span>
         </div>
         <div>
-            <app-payment-ways></app-payment-ways>
+            <app-payment-ways (paymentWayChange)="UpdatePaymentWay($event)"></app-payment-ways>
         </div>
         <div>
-            <app-credit-card></app-credit-card>
+            <app-credit-card (parcelChange)="UpdateParcel($event)"></app-credit-card>
         </div>
     </div>
 </div>
