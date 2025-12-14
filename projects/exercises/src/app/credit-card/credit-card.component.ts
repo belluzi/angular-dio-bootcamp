@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { ParcelOption } from '../models/parcel-option.interface';
+import { PaymentOption } from '../models/payment-option.interface';
 
 @Component({
     selector: 'app-credit-card',
@@ -6,7 +8,10 @@ import { Component, OnInit } from '@angular/core';
     styleUrls: ['./credit-card.component.scss'],
 })
 export class CreditCardComponent implements OnInit {
-    parcelOptions: Array<{ display: string; value: number; tax: number }>;
+    public selectedParcelOption = 12;
+    @Output() public parcelChange: EventEmitter<ParcelOption> = new EventEmitter<ParcelOption>();
+
+    public parcelOptions: Array<ParcelOption>;
     constructor() {
         this.parcelOptions = [
             { display: '1x sem juros', value: 1, tax: 0 },
@@ -25,5 +30,19 @@ export class CreditCardComponent implements OnInit {
     }
 
     ngOnInit(): void {}
+
+    public ValidateNumbersOnly(input: KeyboardEvent): void {
+        isNaN(input.key as any) ? input.preventDefault() : null;
+    }
+
+    public UpdateParcel(): void {
+        const parcelOption = this.parcelOptions.find((option) => {
+            return option.value == this.selectedParcelOption;
+        });
+
+        if (parcelOption !== undefined) {
+            this.parcelChange.emit(parcelOption);
+        }
+    }
 }
 
